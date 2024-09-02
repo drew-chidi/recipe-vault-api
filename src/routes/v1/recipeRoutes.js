@@ -15,7 +15,7 @@ const router = express.Router();
 
 router.get('/', getRecipes);
 router.get('/:id', getRecipeById);
-router.post('/', createRecipe, validateRecipe, validationMiddleware);
+router.post('/', validateRecipe, validationMiddleware, createRecipe);
 router.put('/:id', updateRecipe);
 router.delete('/:id', deleteRecipe);
 
