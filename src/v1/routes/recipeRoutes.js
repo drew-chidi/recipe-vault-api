@@ -1,4 +1,6 @@
 const express = require('express');
+const upload = require('../../middlewares/multer');
+
 const {
   getRecipes,
   getRecipeById,
@@ -15,7 +17,13 @@ const router = express.Router();
 
 router.get('/', getRecipes);
 router.get('/:id', getRecipeById);
-router.post('/', validateRecipe, validationMiddleware, createRecipe);
+router.post(
+  '/',
+  upload.single('image'),
+  validateRecipe,
+  validationMiddleware,
+  createRecipe,
+);
 router.put('/:id', updateRecipe);
 router.delete('/:id', deleteRecipe);
 

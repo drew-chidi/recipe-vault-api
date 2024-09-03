@@ -7,6 +7,14 @@ const cors = require('cors');
 
 dotenv.config();
 
+if (
+  !process.env.CLOUDINARY_CLOUD_NAME ||
+  !process.env.CLOUDINARY_API_KEY ||
+  !process.env.CLOUDINARY_API_SECRET
+) {
+  throw new Error('Cloudinary configuration is missing environment variables');
+}
+
 const app = express();
 
 app.use(express.json());
