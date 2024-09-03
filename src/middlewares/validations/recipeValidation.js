@@ -1,5 +1,8 @@
 const { check, validationResult } = require('express-validator');
 
+// To-do
+// 1. Validate Image too as it is a required field
+
 // Validation rules for recipe creation
 const validateRecipe = [
   check('title')
