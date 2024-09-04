@@ -48,8 +48,6 @@ exports.getRecipeById = async (req, res, next) => {
 // Create a new recipe
 exports.createRecipe = async (req, res, next) => {
   try {
-    console.log('Request body:', req.body); // Add this line to check request body
-
     const { title, ingredients, instructions } = req.body;
     let imageUrl = '';
 

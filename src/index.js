@@ -1,19 +1,13 @@
 const express = require('express');
-const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const errorHandler = require('./middlewares/errorHandler');
 const recipeRoutes = require('./v1/routes/recipeRoutes');
 const cors = require('cors');
+require('dotenv').config();
 
-dotenv.config();
-
-if (
-  !process.env.CLOUDINARY_CLOUD_NAME ||
-  !process.env.CLOUDINARY_API_KEY ||
-  !process.env.CLOUDINARY_API_SECRET
-) {
-  throw new Error('Cloudinary configuration is missing environment variables');
-}
+console.log('CLOUDINARY_CLOUD_NAME:', process.env.CLOUDINARY_CLOUD_NAME);
+console.log('CLOUDINARY_API_KEY:', process.env.CLOUDINARY_API_KEY);
+console.log('CLOUDINARY_API_SECRET:', process.env.CLOUDINARY_API_SECRET);
 
 const app = express();
 
