@@ -1,4 +1,4 @@
-# Recipe Vault (Backend)
+# Recipe Vault API
 
 **Recipe Vault** is a backend service that powers a web application for discovering, creating, and sharing recipes. This backend handles API requests, manages the database, and performs other server-side tasks to support recipe management.
 
@@ -15,7 +15,6 @@
 
 - **Recipe Management**: Supports CRUD operations for managing recipes, including adding, updating, and deleting recipes.
 - **Pagination**: API supports pagination for fetching recipe lists.
-- **Search Functionality**: Allows searching for recipes based on various parameters (e.g., ingredients, cuisine).
 - **Media Storage**: Integration with Cloudinary for image and video uploads related to recipes.
 - **Error Handling**: Comprehensive error handling for API requests.
   
@@ -27,19 +26,18 @@ Ensure you have the following installed:
 
 - [Node.js](https://nodejs.org/en/) (version 14 or higher)
 - [npm](https://www.npmjs.com/get-npm) or [Yarn](https://yarnpkg.com/)
-- MongoDB (locally or via [MongoDB Atlas](https://www.mongodb.com/cloud/atlas))
 
 ### Installation
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/drew-chidi/recipe-vault-backend.git
+   git clone https://github.com/drew-chidi/recipe-vault-api.git
 
 2. Navigate to the project directory:
 
       ```bash
-      cd recipe-vault-backend
+      cd recipe-vault-api
       
 3. Install the dependencies:
 
@@ -58,9 +56,9 @@ Ensure you have the following installed:
 
    ```bash
    npm run dev
+   ```
 
-
-# Contact
+ ## Contact
 
 For any inquiries or feedback, feel free to reach out:
 
