@@ -24,7 +24,13 @@ router.post(
   validationMiddleware,
   createRecipe,
 );
-router.put('/:id', updateRecipe);
+router.put(
+  '/:id',
+  upload.single('image'),
+  validateRecipe,
+  validationMiddleware,
+  updateRecipe,
+);
 router.delete('/:id', deleteRecipe);
 
 module.exports = router;

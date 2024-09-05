@@ -7,7 +7,8 @@ exports.getRecipes = async (req, res, next) => {
     const { page = 1, limit = 10 } = req.query;
 
     const recipes = await Recipe.find()
-      .limit(limit * 1)
+      .sort({ createdAt: -1 })
+      .limit(parseInt(limit, 10))
       .skip((page - 1) * limit)
       .exec();
 
@@ -76,27 +77,72 @@ exports.createRecipe = async (req, res, next) => {
 
 // Update an existing recipe
 exports.updateRecipe = async (req, res, next) => {
+  console.log('Request body:', req.body);
+
   try {
-    const updatedRecipe = await Recipe.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true },
-    );
-    if (!updatedRecipe) {
+    const { title, ingredients, instructions } = req.body;
+    let imageUrl = '';
+
+    // Find the existing recipe
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe) {
       return res.status(404).json({
         success: false,
         message: 'Recipe not found',
       });
     }
+
+    // If a new image is uploaded, upload it to Cloudinary
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      imageUrl = result.secure_url;
+    } else {
+      // Retain the existing image URL if no new image is uploaded
+      imageUrl = recipe.image;
+    }
+
+    // Update the recipe with the new data
+    recipe.title = title || recipe.title;
+    recipe.ingredients = ingredients || recipe.ingredients;
+    recipe.instructions = instructions || recipe.instructions;
+    recipe.image = imageUrl;
+
+    // Save the updated recipe
+    await recipe.save();
+
     res.status(200).json({
       success: true,
       message: 'Recipe updated successfully',
-      data: updatedRecipe,
+      data: recipe,
     });
   } catch (error) {
     next(error);
   }
 };
+
+// // Update an existing recipe
+// exports.updateRecipe = async (req, res, next) => {
+//   try {
+//     const updatedRecipe = await Recipe.findByIdAndUpdate(
+//       req.params.id,
+//       req.body,
+//       { new: true },
+//     );
+//     if (!updatedRecipe) {
+//       return res.status(404).json({
+//         success: false,
+//         message: 'Recipe not found',
+//       });
+//     }
+//     res.status(200).json({
+//       success: true,
+//       message: 'Recipe updated successfully',
+//       data: updatedRecipe,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 // Delete a recipe
 exports.deleteRecipe = async (req, res, next) => {
