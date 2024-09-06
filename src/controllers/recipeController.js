@@ -77,8 +77,6 @@ exports.createRecipe = async (req, res, next) => {
 
 // Update an existing recipe
 exports.updateRecipe = async (req, res, next) => {
-  console.log('Request body:', req.body);
-
   try {
     const { title, ingredients, instructions } = req.body;
     let imageUrl = '';
@@ -120,30 +118,6 @@ exports.updateRecipe = async (req, res, next) => {
   }
 };
 
-// // Update an existing recipe
-// exports.updateRecipe = async (req, res, next) => {
-//   try {
-//     const updatedRecipe = await Recipe.findByIdAndUpdate(
-//       req.params.id,
-//       req.body,
-//       { new: true },
-//     );
-//     if (!updatedRecipe) {
-//       return res.status(404).json({
-//         success: false,
-//         message: 'Recipe not found',
-//       });
-//     }
-//     res.status(200).json({
-//       success: true,
-//       message: 'Recipe updated successfully',
-//       data: updatedRecipe,
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
 // Delete a recipe
 exports.deleteRecipe = async (req, res, next) => {
   try {
@@ -156,21 +130,21 @@ exports.deleteRecipe = async (req, res, next) => {
       });
     }
 
-    // await cloudinary.uploader.destroy(publicId, (error, result) => {
-    //   if (error) {
-    //     return res.status(500).json({
-    //       success: false,
-    //       message: 'Error deleting image from Cloudinary',
-    //     });
-    //   }
-    // });
+    if (recipe.image) {
+      const publicId = recipe.image.split('/').pop().split('.')[0];
 
-    // if (recipe && recipe.image) {
-    //   const publicId = recipe.image.split('/').pop().split('.')[0];
-    //   await cloudinary.uploader.destroy(publicId);
-    // }
+      await cloudinary.uploader.destroy(publicId, (error, result) => {
+        if (error) {
+          return res.status(500).json({
+            success: false,
+            message: 'Error deleting image from Cloudinary',
+          });
+        }
+      });
+    }
 
     await Recipe.findByIdAndDelete(req.params.id);
+
     res.status(200).json({
       success: true,
       message: 'Recipe deleted successfully',
