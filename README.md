@@ -68,8 +68,8 @@ npm run dev
 
 ## Deployment Link
 
-[Recipe Vault](https://recipe-vault-web.vercel.app/)
-[Recipe Vault API documentation](https://documenter.getpostman.com/view/19302224/2sAXjRWVP5)
+- [Recipe Vault](https://recipe-vault-web.vercel.app/)
+- [Recipe Vault API documentation](https://documenter.getpostman.com/view/19302224/2sAXjRWVP5)
 
 ## Contact
 
