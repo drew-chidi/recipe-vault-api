@@ -6,9 +6,22 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-
 app.use(express.json());
-app.use(cors());
+
+const allowedOrigins = ['https://recipe-vault-web.vercel.app'];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
+app.use(cors(corsOptions));
+
 app.use('/api/v1/recipes', recipeRoutes);
 
 app.use(errorHandler);
@@ -24,5 +37,3 @@ mongoose
     ),
   )
   .catch((err) => console.log(err));
-
-module.exports = app;
