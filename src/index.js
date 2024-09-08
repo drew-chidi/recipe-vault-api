@@ -5,14 +5,9 @@ const recipeRoutes = require('./v1/routes/recipeRoutes');
 const cors = require('cors');
 require('dotenv').config();
 
-console.log('CLOUDINARY_CLOUD_NAME:', process.env.CLOUDINARY_CLOUD_NAME);
-console.log('CLOUDINARY_API_KEY:', process.env.CLOUDINARY_API_KEY);
-console.log('CLOUDINARY_API_SECRET:', process.env.CLOUDINARY_API_SECRET);
-
 const app = express();
 
 app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use('/api/v1/recipes', recipeRoutes);
 
@@ -29,3 +24,5 @@ mongoose
     ),
   )
   .catch((err) => console.log(err));
+
+module.exports = app;

@@ -7,7 +7,11 @@ const recipeSchema = new mongoose.Schema(
     instructions: { type: String, required: true },
     image: { type: String },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    toJSON: { virtuals: true, versionKey: false },
+    toObject: { virtuals: true, versionKey: false },
+  },
 );
 
 module.exports = mongoose.model('Recipe', recipeSchema);

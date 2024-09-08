@@ -19,7 +19,7 @@ exports.getRecipes = async (req, res, next) => {
       message: 'Recipes retrieved successfully',
       data: recipes,
       totalPages: Math.ceil(count / limit),
-      currentPage: page,
+      currentPage: parseInt(page, 10),
     });
   } catch (error) {
     next(error);
@@ -63,6 +63,7 @@ exports.createRecipe = async (req, res, next) => {
       instructions,
       image: imageUrl,
     });
+
     await newRecipe.save();
 
     res.status(201).json({
@@ -81,7 +82,6 @@ exports.updateRecipe = async (req, res, next) => {
     const { title, ingredients, instructions } = req.body;
     let imageUrl = '';
 
-    // Find the existing recipe
     const recipe = await Recipe.findById(req.params.id);
     if (!recipe) {
       return res.status(404).json({
@@ -90,12 +90,10 @@ exports.updateRecipe = async (req, res, next) => {
       });
     }
 
-    // If a new image is uploaded, upload it to Cloudinary
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path);
       imageUrl = result.secure_url;
     } else {
-      // Retain the existing image URL if no new image is uploaded
       imageUrl = recipe.image;
     }
 
@@ -105,7 +103,6 @@ exports.updateRecipe = async (req, res, next) => {
     recipe.instructions = instructions || recipe.instructions;
     recipe.image = imageUrl;
 
-    // Save the updated recipe
     await recipe.save();
 
     res.status(200).json({
